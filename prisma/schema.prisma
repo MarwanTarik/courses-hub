@@ -18,24 +18,54 @@ model Users {
   id          Int       @id @default(autoincrement())
   name        String    @unique
   email       String    @unique
-  password    String    @unique
+  password    String
   phonenumber String    @unique
   address     String
   gender      Gender
   role_id     Int
   student     Students?
+  role        Roles     @relation(fields: [role_id], references: [id])
 }
 
 model Students {
-  user_id    Int     @unique
-  student_id Int     @unique
-  gpa        Decimal @db.Decimal(2, 1)
-  user       Users   @relation(fields: [user_id], references: [id])
+  user_id              Int         @unique
+  student_id           Int         @unique
+  gpa                  Decimal     @db.Decimal(2, 1)
+  registred_courses_id Int         @unique
+  level_id             Int         @unique
+  class_rank           Int
+  department_id        Int         @unique
+  courses              Courses     @relation(fields: [registred_courses_id], references: [id])
+  level                Levels      @relation(fields: [level_id], references: [id])
+  department           Departments @relation(fields: [department_id], references: [id])
+  user                 Users       @relation(fields: [user_id], references: [id])
 }
 
 model Roles {
-  id   Int  @id @default(autoincrement())
-  role Role @unique
+  id    Int     @id @default(autoincrement())
+  role  Role    @unique
+  users Users[]
+}
+
+model Courses {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  hours Int
+  cose  String @unique
+
+  students Students[]
+}
+
+model Levels {
+  id       Int        @id @default(autoincrement())
+  level    Int        @unique
+  students Students[]
+}
+
+model Departments {
+  id         Int        @id @default(autoincrement())
+  department String     @unique
+  students   Students[]
 }
 
 enum Gender {
