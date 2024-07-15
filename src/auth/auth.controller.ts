@@ -9,8 +9,8 @@ import {
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AccessTokenPayload } from 'src/types/access-token-paylod.type';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { Public } from 'src/decorators/public.decorator';
+import { RegisterUserDto } from './dto/register-user.dto';
 
 @Public()
 @Controller('auth')
@@ -28,7 +28,7 @@ export class AuthController {
 
   @Post('register')
   async register(
-    @Body() user: CreateUserDto,
+    @Body() user: RegisterUserDto,
   ): Promise<AccessTokenPayload | BadRequestException> {
     return await this.authService.register(user);
   }

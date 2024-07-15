@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
 import { Users } from '@prisma/client';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AccessTokenPayload } from 'src/types/access-token-paylod.type';
 import { ConfigService } from '@nestjs/config';
+import { RegisterUserDto } from './dto/register-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,12 +17,13 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<Users> {
     const user = await this.userService.findOneByEmail(email);
+
     if (user === null) {
       throw new BadRequestException('User not found');
     }
 
     const isMatch = bcrypt.compareSync(password, user.password);
-    if(!isMatch) {
+    if (!isMatch) {
       throw new BadRequestException('Password does not match');
     }
 
@@ -34,16 +35,20 @@ export class AuthService {
     return { access_token: this.jwtService.sign(paylod) };
   }
 
-  async register(user: CreateUserDto): Promise<AccessTokenPayload> {
-    const existingUser = this.userService.findOneByEmail(user.email);
+  async register(user: RegisterUserDto): Promise<AccessTokenPayload> {
+    const existingUser = await this.userService.findOneByEmail(user.email);
+
     if (existingUser) {
       throw new BadRequestException('email already exist');
     }
 
-    const hashedPassword = bcrypt.hashSync(user.password, this.configService.getOrThrow('PASSWORD_SALT'));
+    const hashedPassword = bcrypt.hashSync(
+      user.password,
+      parseInt(this.configService.getOrThrow('PASSWORD_SALT'), 10),
+    );
     const newUser = { ...user, password: hashedPassword };
-    
-    this.userService.create(newUser);
+
+    await this.userService.create(newUser);
 
     return this.login(newUser.email, newUser.password);
   }

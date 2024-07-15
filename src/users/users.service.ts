@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Users } from '@prisma/client';
+import { Prisma, Users } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -9,8 +9,21 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto): Promise<Users> {
+    const { name, email, password, phonenumber, address, gender, roleId } =
+      createUserDto;
+
     return this.prisma.users.create({
-      data: createUserDto,
+      data: {
+        name,
+        email,
+        password,
+        phonenumber,
+        address,
+        gender,
+        role: {
+          connect: { id: roleId },
+        },
+      },
     });
   }
 
@@ -29,19 +42,24 @@ export class UsersService {
   async findOneByEmail(email: string): Promise<Users> {
     return this.prisma.users.findUnique({
       where: {
-        email
-      }
-    })
+        email,
+      },
+    });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<Users> {
+    const updateData: Prisma.UsersUpdateInput = {
+      ...Object.entries(updateUserDto)
+        .filter(([, value]) => value !== undefined)
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}),
+      role: updateUserDto.roleId
+        ? { connect: { id: updateUserDto.roleId } }
+        : undefined,
+    };
+
     return this.prisma.users.update({
-      data: {
-        ...updateUserDto,
-      },
-      where: {
-        id,
-      },
+      data: updateData,
+      where: { id },
     });
   }
 
