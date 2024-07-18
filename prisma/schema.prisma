@@ -69,12 +69,12 @@ model Departments {
 }
 
 enum Gender {
-  MALE
-  FEMALE
+  male
+  female
 }
 
 enum Role {
-  STUDENT
-  ADMIN
-  GUEST
+  student
+  admin
+  guest
 }

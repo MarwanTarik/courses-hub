@@ -11,6 +11,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { AccessTokenPayload } from 'src/types/access-token-paylod.type';
 import { Public } from 'src/decorators/public.decorator';
 import { RegisterUserDto } from './dto/register-user.dto';
+import { Roles } from 'src/enums/role.enum';
+import { Role } from 'src/decorators/roles.decorator';
 
 @Public()
 @Controller('auth')
@@ -22,8 +24,8 @@ export class AuthController {
   async login(
     @Request() req,
   ): Promise<AccessTokenPayload | BadRequestException> {
-    const { email, password } = req.user;
-    return this.authService.login(email, password);
+    const { email, password, role } = req.user;
+    return this.authService.login(email, password, role);
   }
 
   @Post('register')

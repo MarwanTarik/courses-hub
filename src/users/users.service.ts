@@ -93,11 +93,25 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string): Promise<UserDto> {
-    return await this.prisma.users.findUnique({
+    const user =  await this.prisma.users.findUnique({
+      select: {
+        email: true,
+        password: true,
+        role: {
+          select: {
+            role: true
+          }
+        }
+      },
       where: {
         email,
       },
     });
+
+    return {
+      ...user,
+      role: user.role?.role,
+    };
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<UserDto> {

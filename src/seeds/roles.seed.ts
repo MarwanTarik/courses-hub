@@ -5,15 +5,11 @@ const prisma = new PrismaClient();
 async function seedRoles() {
   try {
     await prisma.roles.createMany({
-      data: [
-        {role: 'ADMIN'},
-        {role: 'GUEST'},
-        {role: 'STUDENT'}
-      ],
+      data: [{ role: 'admin' }, { role: 'guest' }, { role: 'student' }],
     });
-    console.log('Seed data inserted successfully.');
+    console.log('Seed roles inserted successfully.');
   } catch (error) {
-    console.error('Error seeding rules:', error);
+    console.error('Error seeding roles:', error);
   } finally {
     await prisma.$disconnect();
   }
