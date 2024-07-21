@@ -1,5 +1,6 @@
-import { Gender, Role } from '@prisma/client';
 import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
+import { Gender } from 'src/enums/gender.enum';
+import { Role } from 'src/enums/role.enum';
 
 export class UpdateUserDto {
   @IsString()

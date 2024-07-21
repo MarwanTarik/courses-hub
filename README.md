@@ -29,3 +29,11 @@ $ pnpm run test:e2e
 # test coverage
 $ pnpm run test:cov
 ```
+
+
+## Documentation
+
+```bash
+# swagger endpoint
+http://host:port/api/doc
+```

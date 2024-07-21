@@ -3,7 +3,6 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { Users } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -13,7 +12,7 @@ import { UserDto } from './dto/user.dto';
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto): Promise<Users> {
+  async create(createUserDto: CreateUserDto): Promise<UserDto> {
     const { name, email, password, phonenumber, address, gender, role } =
       createUserDto;
 
@@ -29,11 +28,11 @@ export class UsersService {
           connect: { role },
         },
       },
-    });
+    }) as unknown as UserDto;
   }
 
   async findAll(): Promise<UserDto[]> {
-    const users = await this.prisma.users.findMany({
+    const users = (await this.prisma.users.findMany({
       select: {
         id: true,
         name: true,
@@ -48,18 +47,15 @@ export class UsersService {
           },
         },
       },
-    });
+    })) as unknown as UserDto[];
 
-    return users.map((user) => ({
-      ...user,
-      role: user.role?.role,
-    }));
+    return users;
   }
 
   async findOne(id: number): Promise<UserDto> {
     let user;
     try {
-      user = await this.prisma.users.findUnique({
+      user = (await this.prisma.users.findUnique({
         select: {
           id: true,
           name: true,
@@ -77,7 +73,7 @@ export class UsersService {
         where: {
           id,
         },
-      });
+      })) as unknown as UserDto;
     } catch (e) {
       throw new InternalServerErrorException(e);
     }
@@ -85,37 +81,29 @@ export class UsersService {
     if (!user) {
       throw new BadRequestException('User not found');
     }
-
-    return {
-      ...user,
-      role: user.role?.role,
-    };
+    return user;
   }
 
   async findOneByEmail(email: string): Promise<UserDto> {
-    const user =  await this.prisma.users.findUnique({
+    const user = (await this.prisma.users.findUnique({
       select: {
         email: true,
         password: true,
         role: {
           select: {
-            role: true
-          }
-        }
+            role: true,
+          },
+        },
       },
       where: {
         email,
       },
-    });
-
-    return {
-      ...user,
-      role: user.role?.role,
-    };
+    })) as unknown as UserDto;
+    return user;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<UserDto> {
-    const user = await this.prisma.users.update({
+    const user = (await this.prisma.users.update({
       select: {
         id: true,
         name: true,
@@ -145,16 +133,12 @@ export class UsersService {
         }),
       },
       where: { id },
-    });
-
-    return {
-      ...user,
-      role: user.role?.role,
-    };
+    })) as unknown as UserDto;
+    return user;
   }
 
   async remove(id: number): Promise<UserDto> {
-    let user: UserDto;
+    let user;
     try {
       user = await this.prisma.users.delete({
         where: {
@@ -164,6 +148,6 @@ export class UsersService {
     } catch (e) {
       throw new BadRequestException('User not found');
     }
-    return user;
+    return user as UserDto;
   }
 }

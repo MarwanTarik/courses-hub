@@ -11,8 +11,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { AccessTokenPayload } from 'src/types/access-token-paylod.type';
 import { Public } from 'src/decorators/public.decorator';
 import { RegisterUserDto } from './dto/register-user.dto';
-import { Roles } from 'src/enums/role.enum';
-import { Role } from 'src/decorators/roles.decorator';
 
 @Public()
 @Controller('auth')

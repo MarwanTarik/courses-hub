@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -6,7 +10,7 @@ import { AccessTokenPayload } from 'src/types/access-token-paylod.type';
 import { ConfigService } from '@nestjs/config';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UserDto } from 'src/users/dto/user.dto';
-import { Roles } from 'src/enums/role.enum';
+import { Role } from 'src/enums/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +20,11 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string, role: Roles): Promise<UserDto> {
+  async validateUser(
+    email: string,
+    password: string,
+    role: Role,
+  ): Promise<UserDto> {
     const user = await this.userService.findOneByEmail(email);
 
     if (user === null) {
@@ -27,15 +35,19 @@ export class AuthService {
     if (!isMatch) {
       throw new BadRequestException('Password does not match');
     }
-  
+
     if (!user.role || user.role !== role) {
       throw new UnauthorizedException();
     }
     return user;
   }
 
-  async login(email: string, password: string, role: Roles): Promise<AccessTokenPayload> {
-    const paylod = { email, password, role};
+  async login(
+    email: string,
+    password: string,
+    role: Role,
+  ): Promise<AccessTokenPayload> {
+    const paylod = { email, password, role };
     return { access_token: this.jwtService.sign(paylod) };
   }
 
