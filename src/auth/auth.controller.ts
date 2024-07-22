@@ -11,7 +11,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { AccessTokenPayload } from 'src/types/access-token-paylod.type';
 import { Public } from 'src/decorators/public.decorator';
 import { RegisterUserDto } from './dto/register-user.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('authentication')
 @Public()
 @Controller({
   path: 'auth',

@@ -12,7 +12,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enums/role.enum';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Roles(Role.admin)
 @Controller({
   path: 'users',
