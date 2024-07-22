@@ -13,7 +13,10 @@ import { Public } from 'src/decorators/public.decorator';
 import { RegisterUserDto } from './dto/register-user.dto';
 
 @Public()
-@Controller('auth')
+@Controller({
+  path: 'auth',
+  version: '1',
+})
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
