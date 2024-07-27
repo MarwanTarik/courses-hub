@@ -8,7 +8,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from './guards/jwt.guard';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { RolesGuard } from './guards/roles.guard';
-import { HelmetMiddleware } from './helmet/helmet.middleware';
+import { HelmetMiddleware } from './middelwares/helmet/helmet.middleware';
 
 @Module({
   imports: [

@@ -1,6 +1,7 @@
 import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
-import { Gender } from 'src/enums/gender.enum';
-import { Role } from 'src/enums/role.enum';
+import { Gender } from '../../enums/gender.enum';
+import { Role } from '../../enums/role.enum';
+import { Role as PrismaRole, Gender as PrismaGender } from '@prisma/client';
 
 export class UpdateUserDto {
   @IsString()
@@ -25,9 +26,9 @@ export class UpdateUserDto {
 
   @IsEnum(Gender)
   @IsOptional()
-  gender?: Gender;
+  gender?: PrismaGender;
 
-  @IsEnum(Role)
   @IsOptional()
-  role?: Role;
+  @IsEnum(Role)
+  role?: PrismaRole;
 }

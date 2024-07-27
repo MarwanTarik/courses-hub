@@ -3,7 +3,7 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserDto } from './dto/user.dto';
@@ -16,7 +16,7 @@ export class UsersService {
     const { name, email, password, phonenumber, address, gender, role } =
       createUserDto;
 
-    return this.prisma.users.create({
+    return await this.prisma.users.create({
       data: {
         name,
         email,
@@ -25,14 +25,16 @@ export class UsersService {
         address,
         gender,
         role: {
-          connect: { role },
+          connect: {
+            role,
+          },
         },
       },
-    }) as unknown as UserDto;
+    });
   }
 
   async findAll(): Promise<UserDto[]> {
-    const users = (await this.prisma.users.findMany({
+    const users = await this.prisma.users.findMany({
       select: {
         id: true,
         name: true,
@@ -47,15 +49,17 @@ export class UsersService {
           },
         },
       },
-    })) as unknown as UserDto[];
+    });
 
-    return users;
+    return users.map((user) => {
+      return { ...user, role: user.role.role };
+    });
   }
 
   async findOne(id: number): Promise<UserDto> {
     let user;
     try {
-      user = (await this.prisma.users.findUnique({
+      user = await this.prisma.users.findUnique({
         select: {
           id: true,
           name: true,
@@ -73,7 +77,7 @@ export class UsersService {
         where: {
           id,
         },
-      })) as unknown as UserDto;
+      });
     } catch (e) {
       throw new InternalServerErrorException(e);
     }
@@ -85,7 +89,7 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string): Promise<UserDto> {
-    const user = (await this.prisma.users.findUnique({
+    const user = await this.prisma.users.findUnique({
       select: {
         email: true,
         password: true,
@@ -98,12 +102,12 @@ export class UsersService {
       where: {
         email,
       },
-    })) as unknown as UserDto;
-    return user;
+    });
+    return { ...user, role: user.role.role };
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<UserDto> {
-    const user = (await this.prisma.users.update({
+    const user = await this.prisma.users.update({
       select: {
         id: true,
         name: true,
@@ -133,8 +137,8 @@ export class UsersService {
         }),
       },
       where: { id },
-    })) as unknown as UserDto;
-    return user;
+    });
+    return { ...user, role: user.role.role };
   }
 
   async remove(id: number): Promise<UserDto> {
@@ -148,6 +152,6 @@ export class UsersService {
     } catch (e) {
       throw new BadRequestException('User not found');
     }
-    return user as UserDto;
+    return user;
   }
 }

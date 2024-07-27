@@ -1,8 +1,19 @@
-import { Gender } from 'src/enums/gender.enum';
-import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
-import { Role } from 'src/enums/role.enum';
+import {
+  IsEmail,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { Gender } from '../../enums/gender.enum';
+import { Role as PrismaRole, Gender as PrismaGender } from '@prisma/client';
+import { Role } from '../../enums/role.enum';
 
 export class UserDto {
+  @IsNumber()
+  @IsOptional()
+  id?: number;
+
   @IsString()
   @IsOptional()
   name?: string;
@@ -25,9 +36,9 @@ export class UserDto {
 
   @IsEnum(Gender)
   @IsOptional()
-  gender?: Gender;
+  gender?: PrismaGender;
 
-  @IsEnum(Role)
   @IsOptional()
-  role?: Role;
+  @IsEnum(Role)
+  role?: PrismaRole;
 }

@@ -1,6 +1,7 @@
 import { IsString, IsEmail, IsOptional, IsEnum } from 'class-validator';
-import { Gender } from 'src/enums/gender.enum';
-import { Role } from 'src/enums/role.enum';
+import { Role } from '../../enums/role.enum';
+import { Gender } from '../../enums/gender.enum';
+import { Role as PrismaRole, Gender as PrismaGender } from '@prisma/client';
 
 export class CreateUserDto {
   @IsString()
@@ -19,9 +20,9 @@ export class CreateUserDto {
   address: string;
 
   @IsEnum(Gender)
-  gender: Gender;
+  gender: PrismaGender;
 
   @IsOptional()
   @IsEnum(Role)
-  role?: Role;
+  role?: PrismaRole;
 }
