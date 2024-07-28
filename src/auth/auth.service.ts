@@ -6,11 +6,12 @@ import {
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { AccessTokenPayload } from '../types/access-token-paylod.type';
+import { AccessTokenPayload } from './dto/access-token-paylod.dto';
 import { ConfigService } from '@nestjs/config';
-import { RegisterUserDto } from './dto/register-user.dto';
+import { RegisterDto } from './dto/register.dto';
 import { UserDto } from '../users/dto/user.dto';
 import { Role } from '../enums/role.enum';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -42,16 +43,11 @@ export class AuthService {
     return user;
   }
 
-  async login(
-    email: string,
-    password: string,
-    role: Role,
-  ): Promise<AccessTokenPayload> {
-    const paylod = { email, password, role };
-    return { access_token: this.jwtService.sign(paylod) };
+  async login(loginDto: LoginDto): Promise<AccessTokenPayload> {
+    return { access_token: this.jwtService.sign(loginDto) };
   }
 
-  async register(user: RegisterUserDto): Promise<AccessTokenPayload> {
+  async register(user: RegisterDto): Promise<AccessTokenPayload> {
     const existingUser = await this.userService.findOneByEmail(user.email);
 
     if (existingUser) {
@@ -66,6 +62,11 @@ export class AuthService {
 
     await this.userService.create(newUser);
 
-    return this.login(newUser.email, newUser.password, newUser.role);
+    const loginDto: LoginDto = {
+      email: newUser.email,
+      password: newUser.password,
+      role: newUser.role,
+    };
+    return this.login(loginDto);
   }
 }

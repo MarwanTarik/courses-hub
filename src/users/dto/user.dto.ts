@@ -8,6 +8,7 @@ import {
 import { Gender } from '../../enums/gender.enum';
 import { Role as PrismaRole, Gender as PrismaGender } from '@prisma/client';
 import { Role } from '../../enums/role.enum';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UserDto {
   @IsNumber()
@@ -34,10 +35,12 @@ export class UserDto {
   @IsOptional()
   address?: string;
 
+  @ApiProperty({ enum: Gender, example: Gender.male })
   @IsEnum(Gender)
   @IsOptional()
   gender?: PrismaGender;
 
+  @ApiProperty({ enum: Role, example: Role.student })
   @IsOptional()
   @IsEnum(Role)
   role?: PrismaRole;
