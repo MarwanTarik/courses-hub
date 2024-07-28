@@ -48,8 +48,9 @@ export class AuthService {
   }
 
   async register(user: RegisterDto): Promise<AccessTokenPayload> {
+    console.log(user);
     const existingUser = await this.userService.findOneByEmail(user.email);
-
+    console.log(user);
     if (existingUser) {
       throw new BadRequestException('email already exist');
     }
@@ -60,6 +61,7 @@ export class AuthService {
     );
     const newUser = { ...user, password: hashedPassword };
 
+    console.log(newUser);
     await this.userService.create(newUser);
 
     const loginDto: LoginDto = {

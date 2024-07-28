@@ -85,10 +85,10 @@ export class UsersService {
     if (!user) {
       throw new BadRequestException('User not found');
     }
-    return user;
+    return { ...user, role: user.role.role };
   }
 
-  async findOneByEmail(email: string): Promise<UserDto> {
+  async findOneByEmail(email: string): Promise<UserDto | null> {
     const user = await this.prisma.users.findUnique({
       select: {
         email: true,
@@ -103,6 +103,9 @@ export class UsersService {
         email,
       },
     });
+    if (user == null) {
+      return null;
+    }
     return { ...user, role: user.role.role };
   }
 
