@@ -10,7 +10,6 @@ import { AccessTokenPayload } from './dto/access-token-paylod.dto';
 import { ConfigService } from '@nestjs/config';
 import { RegisterDto } from './dto/register.dto';
 import { UserDto } from '../users/dto/user.dto';
-import { Role } from '../enums/role.enum';
 import { LoginDto } from './dto/login.dto';
 
 @Injectable()
@@ -21,11 +20,8 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(
-    email: string,
-    password: string,
-    role: Role,
-  ): Promise<UserDto> {
+  async validateUser(loginDto: LoginDto): Promise<UserDto> {
+    const { email, password, role } = loginDto;
     const user = await this.userService.findOneByEmail(email);
 
     if (user === null) {
