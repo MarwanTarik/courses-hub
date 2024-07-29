@@ -1,36 +1,27 @@
-name: Super-Linter
+name: Linting
 
-on: 
+on:
   push:
-    branches:
-      - master
+    branches: [ main ]
   pull_request:
-    branches:
-      - master
+    branches: [ main ]
 
 jobs:
-  super-lint:
-    name: Lint Code Base
-    runs-on: ubuntu-latest
+
+  lint:
+    runs-on: ubuntu-20.04
+    
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Run Super-Linter
-        uses: github/super-linter@v4
-        env:
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_ALL_CODEBASE: false
-          VALIDATE_JS: true
-          VALIDATE_TYPESCRIPT: true
-          VALIDATE_JSON: true
-          VALIDATE_ESLINT: true
-          FILTER_REGEX_EXCLUDE: "(node_modules|\\.git|dist|docs|\\.env\\.js|\\.gitignore|pnpm-lock\\.yaml|README\\.md|\\.prettierrc\\.js)"
-          ESLINT_FILE: .eslintrc.js
-
-      - name: Upload Linter Results
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: super
+    - uses: actions/checkout@v3
+    - name: Use Node.js 20.15
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20.15
+    
+    - name: Install dependencies
+      run: pnpm ci
+    
+    - name: Run linter
+      run: |
+        pnpm run lint
+        pnpm run format
