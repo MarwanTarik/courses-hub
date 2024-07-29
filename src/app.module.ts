@@ -12,7 +12,7 @@ import { HelmetMiddleware } from './middelwares/helmet/helmet.middleware';
 
 @Module({
   imports: [
-    UsersMole,
+    UsersModule,
     AuthModule,
     ConfigModule.forRoot({
       envFilePath: ['.env'],
