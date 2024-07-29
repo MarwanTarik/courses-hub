@@ -24,23 +24,13 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JS: true
           VALIDATE_TYPESCRIPT: true
+          VALIDATE_JSON: true
           VALIDATE_ESLINT: true
-          FILTER_REGEX_EXCLUDE: 
-            node_modules
-            .git
-            dist
-            docs
-            .env
-            eslintrc.js
-            .gitignore
-            pnpm-lock.yaml
-            README.md
-            .prettierrc.js
+          FILTER_REGEX_EXCLUDE: "(node_modules|\\.git|dist|docs|\\.env\\.js|\\.gitignore|pnpm-lock\\.yaml|README\\.md|\\.prettierrc\\.js)"
           ESLINT_FILE: .eslintrc.js
 
       - name: Upload Linter Results
         if: failure()
         uses: actions/upload-artifact@v3
         with:
-          name: super-linter-results
-          path: /tmp/linting
+          name: super
