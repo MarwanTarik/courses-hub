@@ -17,13 +17,14 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 20
-        cache: 'pnpm'
     
     - name: Install pnpm
       run: npm install -g pnpm
+      env:
+        PATH: /usr/local/bin:$PATH
 
     - name: Install dependencies
-      run: pnpm ci
+      run: pnpm install
     
     - name: Run linter
       run: |
