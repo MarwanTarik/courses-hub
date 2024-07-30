@@ -30,10 +30,13 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
-
 ## Documentation
 
 ```bash
+# code documentation
+# compodoc
+pnpm run generate:doc
+
 # swagger endpoint
 http://host:port/api/doc
 ```
