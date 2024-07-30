@@ -9,6 +9,10 @@ import { JwtGuard } from './guards/jwt.guard';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { RolesGuard } from './guards/roles.guard';
 import { HelmetMiddleware } from './middelwares/helmet/helmet.middleware';
+import { StudentsModule } from './students/students.module';
+import { CoursesModule } from './courses/courses.module';
+import { DepartmentsModule } from './departments/departments.module';
+import { LevelsModule } from './levels/levels.module';
 
 @Module({
   imports: [
@@ -18,6 +22,10 @@ import { HelmetMiddleware } from './middelwares/helmet/helmet.middleware';
       envFilePath: ['.env'],
       isGlobal: true,
     }),
+    StudentsModule,
+    CoursesModule,
+    DepartmentsModule,
+    LevelsModule,
   ],
   controllers: [AppController],
   providers: [

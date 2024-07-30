@@ -28,17 +28,16 @@ model Users {
 }
 
 model Students {
-  user_id              Int         @unique
-  student_id           Int         @unique
-  gpa                  Decimal     @db.Decimal(2, 1)
-  registred_courses_id Int         @unique
-  level_id             Int         @unique
-  class_rank           Int
-  department_id        Int         @unique
-  courses              Courses     @relation(fields: [registred_courses_id], references: [id])
-  level                Levels      @relation(fields: [level_id], references: [id])
-  department           Departments @relation(fields: [department_id], references: [id])
-  user                 Users       @relation(fields: [user_id], references: [id])
+  userId         Int              @unique
+  studentId      Int              @unique
+  gpa            Decimal          @db.Decimal(2, 1)
+  levelId        Int              @unique
+  classRank      Int
+  departmentId   Int              @unique
+  level          Levels           @relation(fields: [levelId], references: [id])
+  department     Departments      @relation(fields: [departmentId], references: [id])
+  user           Users            @relation(fields: [userId], references: [id])
+  studentCourses StudentCourses[]
 }
 
 model Roles {
@@ -48,12 +47,27 @@ model Roles {
 }
 
 model Courses {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  hours Int
-  cose  String @unique
+  id             Int              @id @default(autoincrement())
+  name           String           @unique
+  creditHours    Int
+  codeId         Int              @unique
+  departmentId   Int              @unique
+  department     Departments      @relation(fields: [departmentId], references: [id])
+  studentCourses StudentCourses[]
+  code           CoursesCode      @relation(fields: [codeId], references: [id])
+}
 
-  students Students[]
+model CoursesCode {
+  id     Int      @id @default(autoincrement())
+  code   String   @unique
+  course Courses?
+}
+
+model StudentCourses {
+  studentId Int      @unique
+  coursesId Int      @unique
+  Students  Students @relation(fields: [studentId], references: [userId])
+  Courses   Courses  @relation(fields: [coursesId], references: [id])
 }
 
 model Levels {
@@ -66,6 +80,7 @@ model Departments {
   id         Int        @id @default(autoincrement())
   department String     @unique
   students   Students[]
+  courses    Courses[]
 }
 
 enum Gender {
