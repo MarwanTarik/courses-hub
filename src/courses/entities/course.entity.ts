@@ -1,172 +1,88 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateCourseDto } from '../dto/create-course.dto';
+import { CourseDto } from '../dto/courses.dto';
 import { UpdateCourseDto } from '../dto/update-course.dto';
-import { CourseDto } from '../dto/course.dto';
-
 @Injectable()
 export class CoursesRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateCourseDto): Promise<CourseDto> {
-    const course = await this.prisma.courses.create({
+    const { code, departmentId, creditHours, name } = data;
+
+    const res = this.prisma.courses.create({
       data: {
-        name: data.name,
-        creditHours: data.creditHours,
-        department: {
-          connect: {
-            department: data.department,
-          },
-        },
-        code: {
-          connect: {
-            code: data.code,
-          },
-        },
+        code,
+        name,
+        departmentId,
+        creditHours,
       },
       select: {
+        id: true,
         name: true,
+        code: true,
         creditHours: true,
         department: {
           select: {
+            id: true,
             department: true,
-          },
-        },
-        code: {
-          select: {
-            code: true,
           },
         },
       },
     });
 
-    return {
-      ...course,
-      code: course.code.code,
-      department: course.department.department,
-    };
+    return res;
   }
 
   async findAll(): Promise<CourseDto[]> {
-    const courses = await this.prisma.courses.findMany({
+    return this.prisma.courses.findMany({
       select: {
+        id: true,
         name: true,
+        code: true,
         creditHours: true,
-        department: {
-          select: {
-            department: true,
-          },
-        },
-        code: {
-          select: {
-            code: true,
-          },
-        },
+        department: true,
       },
-    });
-
-    return courses.map((course) => {
-      return {
-        ...course,
-        code: course.code.code,
-        department: course.department.department,
-      };
     });
   }
 
   async findOne(id: number): Promise<CourseDto> {
-    const course = await this.prisma.courses.findUnique({
-      select: {
-        name: true,
-        creditHours: true,
-        department: {
-          select: {
-            department: true,
-          },
-        },
-        code: {
-          select: {
-            code: true,
-          },
-        },
-      },
+    return this.prisma.courses.findUnique({
       where: { id },
+      select: {
+        id: true,
+        name: true,
+        code: true,
+        creditHours: true,
+        department: true,
+      },
     });
-
-    return {
-      ...course,
-      code: course.code.code,
-      department: course.department.department,
-    };
   }
 
   async update(id: number, data: UpdateCourseDto): Promise<CourseDto> {
-    const course = await this.prisma.courses.update({
-      select: {
-        name: true,
-        creditHours: true,
-        department: {
-          select: {
-            department: true,
-          },
-        },
-        code: {
-          select: {
-            code: true,
-          },
-        },
-      },
-      data: {
-        name: data?.name,
-        creditHours: data?.creditHours,
-        department: {
-          connect: {
-            department: data?.department,
-          },
-        },
-        ...(data?.code && {
-          code: {
-            connect: {
-              code: data?.code,
-            },
-          },
-        }),
-      },
+    return this.prisma.courses.update({
       where: { id },
+      data,
+      select: {
+        id: true,
+        name: true,
+        code: true,
+        creditHours: true,
+        department: true,
+      },
     });
-
-    return {
-      ...course,
-      code: course.code.code,
-      department: course.department.department,
-    };
   }
 
   async delete(id: number): Promise<CourseDto> {
-    const course = await this.prisma.courses.delete({
+    return this.prisma.courses.delete({
+      where: { id },
       select: {
+        id: true,
         name: true,
+        code: true,
         creditHours: true,
-        department: {
-          select: {
-            department: true,
-          },
-        },
-        code: {
-          select: {
-            code: true,
-          },
-        },
-      },
-      where: {
-        id,
+        department: true,
       },
     });
-
-    return {
-      ...course,
-      code: course.code.code,
-      department: course.department.department,
-    };
   }
 }

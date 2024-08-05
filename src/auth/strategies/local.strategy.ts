@@ -20,7 +20,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     password: string,
   ): Promise<UserDto> {
     const { role } = req.body;
-    const user = await this.authService.validateUser(email, password, role);
+    const user = await this.authService.validateUser({ email, password, role });
     if (user === null) {
       throw new UnauthorizedException();
     }

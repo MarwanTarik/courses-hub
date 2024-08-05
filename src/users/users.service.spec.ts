@@ -125,7 +125,10 @@ describe('UsersService', () => {
         .spyOn(prismaService.users, 'findUnique')
         .mockResolvedValue(users[id - 1] as any);
 
-      expect(await service.findOne(id)).toEqual({...users[id - 1], role: users[id - 1].role.role});
+      expect(await service.findOne(id)).toEqual({
+        ...users[id - 1],
+        role: users[id - 1].role.role,
+      });
       expect(prismaService.users.findUnique).toHaveBeenCalledWith({
         select: {
           id: true,

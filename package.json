@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "format:schema": "npx prisma format --schema prisma/schema.prisma",
     "migration:generate": "pnpm format:schema && npx prisma migrate dev",
-    "seed:roles": "ts-node ./src/seeds/roles.seed.ts",
+    "seed": "ts-node ./src/seeds/seed.ts",
     "generate:doc": "npx @compodoc/compodoc -p tsconfig.json -s"
   },
   "dependencies": {

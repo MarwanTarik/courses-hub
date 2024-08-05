@@ -10,8 +10,16 @@ import {
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles.decorator';
+import { Role } from 'src/enums/role.enum';
 
-@Controller('courses')
+@ApiTags('courses')
+@Roles(Role.admin)
+@Controller({
+  path: 'courses',
+  version: '1',
+})
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 

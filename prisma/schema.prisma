@@ -29,11 +29,10 @@ model Users {
 
 model Students {
   userId         Int              @unique
-  studentId      Int              @unique
+  studentId      String           @unique
   gpa            Decimal          @db.Decimal(2, 1)
-  levelId        Int              @unique
-  classRank      Int
-  departmentId   Int              @unique
+  levelId        Int
+  departmentId   Int
   level          Levels           @relation(fields: [levelId], references: [id])
   department     Departments      @relation(fields: [departmentId], references: [id])
   user           Users            @relation(fields: [userId], references: [id])
@@ -50,35 +49,28 @@ model Courses {
   id             Int              @id @default(autoincrement())
   name           String           @unique
   creditHours    Int
-  codeId         Int              @unique
-  departmentId   Int              @unique
+  code           String           @unique
+  departmentId   Int
   department     Departments      @relation(fields: [departmentId], references: [id])
   studentCourses StudentCourses[]
-  code           CoursesCode      @relation(fields: [codeId], references: [id])
-}
-
-model CoursesCode {
-  id     Int      @id @default(autoincrement())
-  code   String   @unique
-  course Courses?
 }
 
 model StudentCourses {
-  studentId Int      @unique
-  coursesId Int      @unique
-  Students  Students @relation(fields: [studentId], references: [userId])
-  Courses   Courses  @relation(fields: [coursesId], references: [id])
+  studentId String   @unique
+  courseId  String   @unique
+  Students  Students @relation(fields: [studentId], references: [studentId])
+  Courses   Courses  @relation(fields: [courseId], references: [code])
 }
 
 model Levels {
   id       Int        @id @default(autoincrement())
-  level    Int        @unique
+  level    Level      @unique
   students Students[]
 }
 
 model Departments {
   id         Int        @id @default(autoincrement())
-  department String     @unique
+  department Department @unique
   students   Students[]
   courses    Courses[]
 }
@@ -92,4 +84,18 @@ enum Role {
   student
   admin
   guest
+}
+
+enum Department {
+  CS
+  IT
+  AI
+  IS
+}
+
+enum Level {
+  first
+  second
+  third
+  fourth
 }
