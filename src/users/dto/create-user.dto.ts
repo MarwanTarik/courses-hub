@@ -25,7 +25,6 @@ export class CreateUserDto {
   gender: PrismaGender;
 
   @ApiProperty({ enum: Role, example: Role.student })
-  @IsOptional()
   @IsEnum(Role)
-  role?: PrismaRole;
+  role: PrismaRole;
 }

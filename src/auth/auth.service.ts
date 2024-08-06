@@ -33,7 +33,7 @@ export class AuthService {
       throw new BadRequestException('Password does not match');
     }
 
-    if (!user.role || user.role !== role) {
+    if (!user.role || user.role.role !== role) {
       throw new UnauthorizedException();
     }
     return user;

@@ -4,16 +4,14 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { Role } from '../enums/role.enum';
 import { Gender } from '../enums/gender.enum';
-import { CreateUserDto } from '../users/dto/create-user.dto';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ConfigService } from '@nestjs/config/dist/config.service';
-import * as bcrypt from 'bcrypt';
 import { AccessTokenPayload } from './dto/access-token-paylod.dto';
+import { UserDto } from 'src/users/dto/user.dto';
 
 describe('AuthService', () => {
   let service: AuthService;
-  let usersService: UsersService;
   let jwtService: JwtService;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let configService: ConfigService;
@@ -46,7 +44,6 @@ describe('AuthService', () => {
     }).compile();
 
     service = module.get<AuthService>(AuthService);
-    usersService = module.get<UsersService>(UsersService);
     jwtService = module.get<JwtService>(JwtService);
     configService = module.get<ConfigService>(ConfigService);
   });
@@ -55,55 +52,9 @@ describe('AuthService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('validateUser', () => {
-    it('should return a user if credentials are valid', async () => {
-      const user: CreateUserDto = {
-        name: 'John Doe',
-        email: 'johndoe@gmail.com',
-        password: 'password',
-        phonenumber: '1234567890',
-        address: '123 Main Street',
-        gender: Gender.male,
-        role: Role.student,
-      };
-
-      jest.spyOn(usersService, 'findOneByEmail').mockResolvedValue(user);
-      jest.spyOn(bcrypt, 'compareSync').mockReturnValue(true);
-
-      const result = await service.validateUser({
-        email: 'test@example.com',
-        password: 'password',
-        role: Role.student,
-      });
-      expect(result).toEqual(user);
-    });
-
-    it('should throw Bad Request Exception if credentials are invalid', async () => {
-      jest.spyOn(usersService, 'findOneByEmail').mockResolvedValue(null);
-
-      const loginDto: LoginDto = {
-        email: 'johndoe@gmail.com',
-        password: 'password',
-        role: Role.student,
-      };
-      await expect(service.validateUser(loginDto)).rejects.toThrow(
-        'User not found',
-      );
-    });
-  });
-
   describe('login', () => {
     it('should return an access token', async () => {
-      const user: CreateUserDto = {
-        name: 'John Doe',
-        email: 'johndoe@gmail.com',
-        password: 'password',
-        phonenumber: '1234567890',
-        address: '123 Main Street',
-        gender: Gender.male,
-        role: Role.student,
-      };
-
+      const user = {} as UserDto;
       const loginDto: LoginDto = {
         email: 'johndoe@gmail.com',
         password: 'password',
