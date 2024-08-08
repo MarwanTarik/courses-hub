@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserDto } from './dto/user.dto';
@@ -29,7 +24,10 @@ export class UsersService {
     return this.usersRepository.findOneByEmail(email);
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<UserDto | null> {
+  async update(
+    id: number,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UserDto | null> {
     return this.usersRepository.update(id, updateUserDto);
   }
 

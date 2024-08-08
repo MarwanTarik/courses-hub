@@ -2,10 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { Gender } from '../enums/gender.enum';
-import { Role } from '../enums/role.enum';
 import { UserDto } from './dto/user.dto';
-import { PrismaService } from '../prisma/prisma.service';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -18,11 +15,11 @@ describe('UsersController', () => {
         {
           provide: UsersService,
           useValue: {
-              create: jest.fn(),
-              findOne: jest.fn(),
-              findAll: jest.fn(),
-              update: jest.fn(),
-              remove: jest.fn(),
+            create: jest.fn(),
+            findOne: jest.fn(),
+            findAll: jest.fn(),
+            update: jest.fn(),
+            remove: jest.fn(),
           },
         },
       ],
@@ -46,7 +43,7 @@ describe('UsersController', () => {
 
   it('should return a list of users', async () => {
     const result = [] as UserDto[];
-    
+
     jest.spyOn(service, 'findAll').mockImplementation(async () => result);
 
     expect(await controller.findAll()).toBe(result);

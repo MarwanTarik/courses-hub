@@ -6,7 +6,7 @@ import { UserDto } from './dto/user.dto';
 import { UsersRepository } from './entities/user.entity';
 
 describe('UsersService', () => {
-  let service: UsersService;;
+  let service: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -21,7 +21,7 @@ describe('UsersService', () => {
             update: jest.fn(),
             delete: jest.fn(),
           },
-        }
+        },
       ],
     }).compile();
 
@@ -45,11 +45,11 @@ describe('UsersService', () => {
 
   describe('findAll', () => {
     it('should return an array of users', async () => {
-        const result = [] as UserDto[];
+      const result = [] as UserDto[];
 
-        jest.spyOn(service, 'findAll').mockResolvedValue(result);
+      jest.spyOn(service, 'findAll').mockResolvedValue(result);
 
-        expect(await service.findAll()).toBe(result);
+      expect(await service.findAll()).toBe(result);
     });
   });
 

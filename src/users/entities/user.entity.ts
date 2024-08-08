@@ -9,8 +9,8 @@ export class UsersRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateUserDto): Promise<UserDto> {
-    const {name, email, password, phonenumber, gender, role, address} = data;
-    
+    const { name, email, password, phonenumber, gender, role, address } = data;
+
     const res = await this.prisma.users.create({
       data: {
         name,
@@ -21,7 +21,7 @@ export class UsersRepository {
         role: {
           connect: {
             role,
-          }
+          },
         },
         phonenumber,
       },
@@ -35,11 +35,11 @@ export class UsersRepository {
           select: {
             id: true,
             role: true,
-          }
+          },
         },
         gender: true,
-      }
-    })
+      },
+    });
 
     return res;
   }
@@ -56,11 +56,11 @@ export class UsersRepository {
           select: {
             id: true,
             role: true,
-          }
+          },
         },
         gender: true,
-      }
-    })
+      },
+    });
     return res;
   }
 
@@ -80,20 +80,19 @@ export class UsersRepository {
           select: {
             id: true,
             role: true,
-          }
-        }
+          },
+        },
       },
     });
-    
+
     return res;
   }
-
 
   async update(id: number, data: UpdateUserDto): Promise<UserDto> {
     const res = await this.prisma.users.update({
       data,
       where: {
-        id
+        id,
       },
       select: {
         id: true,
@@ -106,18 +105,18 @@ export class UsersRepository {
           select: {
             id: true,
             role: true,
-          }
-        }
+          },
+        },
       },
     });
-    
+
     return res;
   }
 
   async delete(id: number): Promise<UserDto> {
     const res = await this.prisma.users.delete({
       where: {
-        id
+        id,
       },
       select: {
         id: true,
@@ -130,8 +129,8 @@ export class UsersRepository {
           select: {
             id: true,
             role: true,
-          }
-        }
+          },
+        },
       },
     });
 
@@ -154,7 +153,7 @@ export class UsersRepository {
           select: {
             id: true,
             role: true,
-          }
+          },
         },
         password: true,
       },
