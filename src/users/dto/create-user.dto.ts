@@ -1,4 +1,4 @@
-import { IsString, IsEmail, IsOptional, IsEnum } from 'class-validator';
+import { IsString, IsEmail, IsEnum } from 'class-validator';
 import { Role } from '../../enums/role.enum';
 import { Gender } from '../../enums/gender.enum';
 import { Role as PrismaRole, Gender as PrismaGender } from '@prisma/client';
@@ -25,7 +25,6 @@ export class CreateUserDto {
   gender: PrismaGender;
 
   @ApiProperty({ enum: Role, example: Role.student })
-  @IsOptional()
   @IsEnum(Role)
-  role?: PrismaRole;
+  role: PrismaRole;
 }

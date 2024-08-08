@@ -1,7 +1,6 @@
 import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 import { Gender } from '../../enums/gender.enum';
-import { Role } from '../../enums/role.enum';
-import { Role as PrismaRole, Gender as PrismaGender } from '@prisma/client';
+import { Gender as PrismaGender } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserDto {
@@ -15,10 +14,6 @@ export class UpdateUserDto {
 
   @IsString()
   @IsOptional()
-  password?: string;
-
-  @IsString()
-  @IsOptional()
   phonenumber?: string;
 
   @IsString()
@@ -29,9 +24,4 @@ export class UpdateUserDto {
   @IsEnum(Gender)
   @IsOptional()
   gender?: PrismaGender;
-
-  @ApiProperty({ enum: Role, example: Role.student })
-  @IsOptional()
-  @IsEnum(Role)
-  role?: PrismaRole;
 }
