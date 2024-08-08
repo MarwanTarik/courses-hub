@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { StudentsRepository } from './entities/student.entity';
-import { Prisma } from '@prisma/client';
+import { CreateStudentDto } from './dto/create-student.dto';
+import { UpdateStudentDto } from './dto/update-student.dto';
 
 @Injectable()
 export class StudentsService {
   constructor(private readonly studentsRepository: StudentsRepository) {}
 
-  create(createStudentDto: Prisma.StudentsCreateInput) {
+  create(createStudentDto: CreateStudentDto) {
     return this.studentsRepository.create(createStudentDto);
   }
 
@@ -18,7 +19,7 @@ export class StudentsService {
     return this.studentsRepository.findOne(id);
   }
 
-  update(id: number, updateStudentDto: Prisma.StudentsUpdateInput) {
+  update(id: number, updateStudentDto: UpdateStudentDto) {
     return this.studentsRepository.update(id, updateStudentDto);
   }
 

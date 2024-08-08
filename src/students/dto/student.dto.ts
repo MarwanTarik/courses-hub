@@ -1,27 +1,23 @@
-import { IsDecimal, IsNumber, IsObject, IsString } from "class-validator";
-import { UserDto } from "src/users/dto/user.dto";
+import { IsDecimal, IsObject, IsString } from 'class-validator';
+import {
+  Prisma,
+  Departments as PrismaDepartments,
+  Levels as PrismaLevels,
+} from '@prisma/client';
+import { UserDto } from 'src/users/dto/user.dto';
 
 export class StudentDto {
-  @IsNumber()
-  userId: number;
-
   @IsString()
   studentId: string;
 
   @IsDecimal()
-  gpa: number;
-  
-  @IsNumber()
-  level: number;
+  gpa: Prisma.Decimal;
 
-  @IsNumber()
-  levelId: number;
+  @IsObject()
+  level: PrismaLevels;
 
-  @IsString()
-  department: string;
-
-  @IsNumber()
-  departmentId: number;
+  @IsObject()
+  department: PrismaDepartments;
 
   @IsObject()
   user: UserDto;
