@@ -2,13 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
-import { Role } from '../enums/role.enum';
-import { Gender } from '../enums/gender.enum';
+import { Role } from '../../enums/role.enum';
+import { Gender } from '../../enums/gender.enum';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ConfigService } from '@nestjs/config/dist/config.service';
 import { AccessTokenPayload } from './dto/access-token-paylod.dto';
-import { UserDto } from 'src/users/dto/user.dto';
+import { UserDto } from '../users/dto/user.dto';
 
 describe('AuthService', () => {
   let service: AuthService;

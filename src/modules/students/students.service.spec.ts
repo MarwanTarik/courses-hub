@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { StudentsService } from './students.service';
-import { StudentsRepository } from '././entities/student.entity';
+import { StudentsRepository } from './entities/student.entity';
 import { StudentDto } from './dto/student.dto';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';

@@ -1,6 +1,6 @@
 import { IsString, IsEmail, IsEnum } from 'class-validator';
-import { Role } from '../../enums/role.enum';
-import { Gender } from '../../enums/gender.enum';
+import { Role } from '../../../enums/role.enum';
+import { Gender } from '../../../enums/gender.enum';
 import { Role as PrismaRole, Gender as PrismaGender } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 

@@ -1,5 +1,5 @@
 import { Grade as PrismaGrade } from '@prisma/client';
-import { Grade } from '../../enums/grade.enum';
+import { Grade } from '../../../enums/grade.enum';
 import { IsEnum, IsNumber, IsString } from 'class-validator';
 
 export class StudentCourseDto {

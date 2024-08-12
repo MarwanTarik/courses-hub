@@ -1,8 +1,8 @@
-import { Grade as PrismaGrade } from '@prisma/client';
-import { Grade } from '../../enums/grade.enum';
 import { IsArray, IsEnum, IsNumber, IsString } from 'class-validator';
+import { Grade } from '../../../enums/grade.enum';
+import { Grade as PrismaGrade } from '@prisma/client';
 
-export class StudentCoursesDto {
+export class CreateStudentCoursesDto {
   @IsString()
   studentId: string;
 
@@ -14,7 +14,6 @@ export class StudentCoursesDto {
   @IsEnum(Grade)
   grades: PrismaGrade[] = [];
 
-  @IsArray()
   @IsNumber()
   scores: number[] = [];
 }

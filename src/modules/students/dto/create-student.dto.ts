@@ -4,7 +4,7 @@ import {
   Department,
 } from '@prisma/client';
 import { IsDecimal, IsEnum, IsObject, IsString } from 'class-validator';
-import { Level } from '../../enums/level.enum';
+import { Level } from '../../../enums/level.enum';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
 
 export class CreateStudentDto {

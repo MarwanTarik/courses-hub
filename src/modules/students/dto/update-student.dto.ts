@@ -3,8 +3,8 @@ import {
   Department as PrismaDepartment,
 } from '@prisma/client';
 import { IsEnum, IsNumber, IsOptional } from 'class-validator';
-import { Level } from '../../enums/level.enum';
-import { Department } from '../../enums/department.enum';
+import { Level } from '../../../enums/level.enum';
+import { Department } from '../../../enums/department.enum';
 
 export class UpdateStudentDto {
   @IsNumber()

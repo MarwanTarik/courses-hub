@@ -10,8 +10,8 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Roles } from '../decorators/roles.decorator';
-import { Role } from '../enums/role.enum';
+import { Roles } from '../../decorators/roles.decorator';
+import { Role } from '../../enums/role.enum';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('users')

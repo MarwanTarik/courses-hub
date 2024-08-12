@@ -4,7 +4,7 @@ import {
   Departments as PrismaDepartments,
   Levels as PrismaLevels,
 } from '@prisma/client';
-import { UserDto } from 'src/users/dto/user.dto';
+import { UserDto } from '../../users/dto/user.dto';
 
 export class StudentDto {
   @IsString()

@@ -1,5 +1,5 @@
 import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
-import { Gender } from '../../enums/gender.enum';
+import { Gender } from '../../../enums/gender.enum';
 import { Gender as PrismaGender } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 

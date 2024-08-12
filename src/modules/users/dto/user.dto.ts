@@ -5,9 +5,9 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Gender } from '../../enums/gender.enum';
+import { Gender } from '../../../enums/gender.enum';
 import { Roles, Gender as PrismaGender } from '@prisma/client';
-import { Role } from '../../enums/role.enum';
+import { Role } from '../../../enums/role.enum';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserDto {

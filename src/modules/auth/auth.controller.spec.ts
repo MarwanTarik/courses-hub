@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { Gender } from '../enums/gender.enum';
-import { Role } from '../enums/role.enum';
+import { Gender } from '../../enums/gender.enum';
+import { Role } from '../../enums/role.enum';
 import { AccessTokenPayload } from './dto/access-token-paylod.dto';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';

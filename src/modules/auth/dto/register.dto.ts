@@ -1,6 +1,6 @@
 import { IsString, IsEmail, IsOptional, IsEnum } from 'class-validator';
-import { Gender } from '../../enums/gender.enum';
-import { Role } from '../../enums/role.enum';
+import { Gender } from '../../../enums/gender.enum';
+import { Role } from '../../../enums/role.enum';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class RegisterDto {

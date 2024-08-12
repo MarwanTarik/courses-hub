@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { Public } from '../decorators/public.decorator';
+import { Public } from '../../decorators/public.decorator';
 import { RegisterDto } from './dto/register.dto';
 import { ApiBody, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';

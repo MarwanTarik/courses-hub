@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CoursesService } from './courses.service';
-import { CoursesRepository } from '../courses/entities/course.entity';
+import { CoursesRepository } from './entities/course.entity';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { CourseDto } from './dto/courses.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
