@@ -2,15 +2,16 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from './guards/jwt.guard';
-import { JwtStrategy } from './auth/strategies/jwt.strategy';
+import { JwtStrategy } from './modules/auth/strategies/jwt.strategy';
 import { RolesGuard } from './guards/roles.guard';
 import { HelmetMiddleware } from './middelwares/helmet/helmet.middleware';
-import { StudentsModule } from './students/students.module';
-import { CoursesModule } from './courses/courses.module';
+import { StudentsModule } from './modules/students/students.module';
+import { CoursesModule } from './modules/courses/courses.module';
+import { StudentCoursesModule } from './modules/student-courses/student-courses.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CoursesModule } from './courses/courses.module';
     }),
     StudentsModule,
     CoursesModule,
+    StudentCoursesModule,
   ],
   controllers: [AppController],
   providers: [

@@ -35,7 +35,7 @@ model Students {
   departmentId   Int
   level          Levels           @relation(fields: [levelId], references: [id])
   department     Departments      @relation(fields: [departmentId], references: [id])
-  user           Users            @relation(fields: [userId], references: [id])
+  user           Users            @relation(fields: [userId], references: [id], onDelete: Cascade)
   studentCourses StudentCourses[]
 }
 
@@ -58,6 +58,8 @@ model Courses {
 model StudentCourses {
   studentId String   @unique
   courseId  String   @unique
+  grade     Grade?
+  score     Int?
   Students  Students @relation(fields: [studentId], references: [studentId])
   Courses   Courses  @relation(fields: [courseId], references: [code])
 }
@@ -98,4 +100,16 @@ enum Level {
   second
   third
   fourth
+}
+
+enum Grade {
+  A_PLUS
+  A
+  B_PLUS
+  B
+  C_PLUS
+  C
+  D_PLUS
+  D
+  F
 }
