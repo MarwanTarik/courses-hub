@@ -11,6 +11,7 @@ import { RolesGuard } from './guards/roles.guard';
 import { HelmetMiddleware } from './middelwares/helmet/helmet.middleware';
 import { StudentsModule } from './students/students.module';
 import { CoursesModule } from './courses/courses.module';
+import { StudentCoursesModule } from './student-courses/student-courses.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CoursesModule } from './courses/courses.module';
     }),
     StudentsModule,
     CoursesModule,
+    StudentCoursesModule,
   ],
   controllers: [AppController],
   providers: [
